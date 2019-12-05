@@ -1,8 +1,7 @@
-
 {
-  "name": "react-native-sy",
+  "name": "@ichong/react-native-sy",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Getting started",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,9 +9,13 @@
   "keywords": [
     "react-native"
   ],
-  "author": "",
-  "license": "",
+  "author": "zhangzy",
+  "license": "ISC",
   "peerDependencies": {
     "react-native": "^0.41.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/petdoctor/react-native-sy.git"
   }
 }
