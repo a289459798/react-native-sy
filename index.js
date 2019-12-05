@@ -1,4 +1,4 @@
-import {NativeModules} from 'react-native';
+import {NativeModules, PermissionsAndroid, Platform} from 'react-native';
 
 const {RNSy, NativeEventEmitter} = NativeModules;
 
@@ -11,7 +11,20 @@ class SyManage extends NativeEventEmitter {
     }
 
     init(appid, debug, cb) {
-        RNSy.init(appid, debug, cb);
+        if (Platform.OS == 'android') {
+            PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE).then((state) => {
+                if (state) {
+                    RNSy.init(appid, debug, cb);
+                } else {
+                    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE).then((granted) => {
+                        RNSy.init(appid, debug, cb);
+                    });
+                }
+            });
+        } else {
+
+            RNSy.init(appid, debug, cb);
+        }
     }
 
     preGetPhonenumber(cb) {
