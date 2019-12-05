@@ -2,7 +2,7 @@ import {NativeModules} from 'react-native';
 
 const {RNSy, NativeEventEmitter} = NativeModules;
 
-class Sy extends NativeEventEmitter {
+class SyManage extends NativeEventEmitter {
     // 构造
     constructor(props) {
         super(RNSy);
@@ -23,5 +23,5 @@ class Sy extends NativeEventEmitter {
     }
 }
 
-let Sy = new Sy();
+let Sy = new SyManage();
 export default Sy;
