@@ -5,6 +5,8 @@
 #import <React/RCTBridgeModule.h>
 #endif
 
+#import <CL_ShanYanSDK/CL_ShanYanSDK.h>
+
 @interface RNSy : NSObject <RCTBridgeModule>
 
 @end
