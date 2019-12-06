@@ -45,7 +45,7 @@ RCT_EXPORT_METHOD(login:(RCTResponseSenderBlock)callback)
         if (completeResult.error) {
             //拉起授权页失败
             NSLog(@"openLoginAuthListener:%@",completeResult.error.userInfo);
-            callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.data]);
+            callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.error.userInfo]);
         }else{
             //拉起授权页成功
             NSLog(@"openLoginAuthListener:%@",completeResult.data);
