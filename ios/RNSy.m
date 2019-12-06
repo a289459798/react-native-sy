@@ -16,7 +16,7 @@ RCT_EXPORT_METHOD(init:(NSString *)appId debug:(BOOL)debug callback:(RCTResponse
         if(completeResult.error) {
             callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.error.userInfo]);
         } else {
-            callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.data]);
+            callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], @[]]);
         }
     }];
 }
