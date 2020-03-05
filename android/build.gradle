@@ -23,6 +23,12 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 repositories {
