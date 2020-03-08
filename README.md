@@ -5,6 +5,8 @@
 
 为开源事业做一份绵薄之力，欢迎加入群：161263093
 
+react-native 版本 > 0.6
+
 ## 效果
 
 ![image](/pic/xg.gif)
@@ -44,6 +46,7 @@
 
 
 ## Usage
+
 ```javascript
 import Sy from '@ichong/react-native-sy';
 
