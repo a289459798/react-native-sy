@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "react-native"
+    "react-native", "闪验", "一键登录"
   ],
   "author": "zhangzy",
   "license": "ISC",
