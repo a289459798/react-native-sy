@@ -45,7 +45,7 @@
 
 ## Usage
 ```javascript
-import RNSy from 'react-native-sy';
+import Sy from '@ichong/react-native-sy';
 
 // 在入口文件的js里面，初始化
 Sy.init(Config.Sy.AppId, Config.DEBUG, (code, data) => {
