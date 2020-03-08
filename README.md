@@ -1,6 +1,12 @@
 
 # react-native-sy
 
+集成闪验一键登录SDK
+
+## 效果
+
+![image](/pic/xg.gif)
+
 ## Getting started
 
 `$ npm install react-native-sy --save`
@@ -39,7 +45,23 @@
 ```javascript
 import RNSy from 'react-native-sy';
 
-// TODO: What to do with the module?
-RNSy;
+// 在入口文件的js里面
+Sy.init(Config.Sy.AppId, Config.DEBUG, (code, data) => {
+    if (code != 1000) {
+        console.log('闪验初始化失败：', data);
+    }
+});
+
+
+// 在登录页面
+
+Sy.login((res, data) => {
+    if (res == 1000) {
+        // 业务代码，server 端用token获取手机号码
+        console.log(data.token)
+    } else {
+        console.error(data);
+    }
+
+})
 ```
-  
