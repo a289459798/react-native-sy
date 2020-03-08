@@ -45,7 +45,7 @@
 ```javascript
 import RNSy from 'react-native-sy';
 
-// 在入口文件的js里面
+// 在入口文件的js里面，初始化
 Sy.init(Config.Sy.AppId, Config.DEBUG, (code, data) => {
     if (code != 1000) {
         console.log('闪验初始化失败：', data);
@@ -53,7 +53,7 @@ Sy.init(Config.Sy.AppId, Config.DEBUG, (code, data) => {
 });
 
 
-// 在登录页面
+// 在登录页面，调用一键登录，目前已弹窗形式
 
 Sy.login((res, data) => {
     if (res == 1000) {
