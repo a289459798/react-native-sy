@@ -9,7 +9,7 @@
 
 ## Getting started
 
-`$ npm install react-native-sy --save`
+`$ npm install git+https://gitee.com/petdoctor/react-native-sy.git --save`
 
 ### Mostly automatic installation
 
