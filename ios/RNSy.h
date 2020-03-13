@@ -7,7 +7,7 @@
 
 #import <CL_ShanYanSDK/CL_ShanYanSDK.h>
 
-@interface RNSy : NSObject <RCTBridgeModule>
+@interface RNSy : NSObject <RCTBridgeModule, CLShanYanSDKManagerDelegate>
 
 @end
   

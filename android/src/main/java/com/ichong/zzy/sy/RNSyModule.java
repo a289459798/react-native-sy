@@ -60,9 +60,9 @@ public class RNSyModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void login(final Callback callback) {
+    public void login(final ReadableMap style, final Callback callback) {
 
-        OneKeyLoginManager.getInstance().setAuthThemeConfig(getConfig());
+        OneKeyLoginManager.getInstance().setAuthThemeConfig(getConfig(style, callback));
         OneKeyLoginManager.getInstance().openLoginAuth(true, new OpenLoginAuthListener() {
             @Override
             public void getOpenLoginAuthStatus(int code, String result) {
@@ -80,16 +80,16 @@ public class RNSyModule extends ReactContextBaseJavaModule {
         });
     }
 
-    private ShanYanUIConfig getConfig() {
+    private ShanYanUIConfig getConfig(final ReadableMap style, final Callback callback) {
         //loading自定义加载框
-        LayoutInflater inflater = LayoutInflater.from(reactContext);
+        LayoutInflater inflater = LayoutInflater.from(getCurrentActivity());
         RelativeLayout view_dialog = (RelativeLayout) inflater.inflate(R.layout.custom_loading_dialog, null);
         RelativeLayout.LayoutParams mLayoutParams3 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         view_dialog.setLayoutParams(mLayoutParams3);
         view_dialog.setVisibility(View.GONE);
 
         Button close = new Button(reactContext);
-        close.setBackgroundResource(reactContext.getResources().getIdentifier("close_black", "drawable", reactContext.getPackageName()));
+        close.setBackgroundResource(R.drawable.close_black);
         RelativeLayout.LayoutParams mLayoutParamsClose = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         mLayoutParamsClose.setMargins(0, AbScreenUtils.dp2px(reactContext, 10), AbScreenUtils.dp2px(reactContext, 10), 0);
         mLayoutParamsClose.width = AbScreenUtils.dp2px(reactContext, 15);
@@ -109,6 +109,7 @@ public class RNSyModule extends ReactContextBaseJavaModule {
         Drawable logBtnImgPath = reactContext.getResources().getDrawable(R.drawable.login_btn_bg);
         Drawable uncheckedImgPath = reactContext.getResources().getDrawable(R.drawable.umcsdk_uncheck_image);
         Drawable checkedImgPath = reactContext.getResources().getDrawable(R.drawable.umcsdk_check_image);
+
         ShanYanUIConfig uiConfig = new ShanYanUIConfig.Builder()
             .setDialogTheme(true, AbScreenUtils.getScreenWidth(reactContext, true) - 66, 400, 0, 0, false)
 
@@ -158,6 +159,7 @@ public class RNSyModule extends ReactContextBaseJavaModule {
             .addCustomView(close, true, false, new ShanYanCustomInterface() {
                 @Override
                 public void onClick(Context context, View view) {
+                    callback.invoke("500", "取消登录");
                 }
             })
             .build();

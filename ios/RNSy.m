@@ -1,5 +1,6 @@
 
 #import "RNSy.h"
+#import "UIColor+Hex.h"
 
 @implementation RNSy
 
@@ -19,6 +20,8 @@ RCT_EXPORT_METHOD(init:(NSString *)appId debug:(BOOL)debug callback:(RCTResponse
             callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], @[]]);
         }
     }];
+    [CLShanYanSDKManager setCLShanYanSDKManagerDelegate:self];
+
 }
 
 RCT_EXPORT_METHOD(preGetPhonenumber:(RCTResponseSenderBlock)callback)
@@ -33,11 +36,11 @@ RCT_EXPORT_METHOD(preGetPhonenumber:(RCTResponseSenderBlock)callback)
     }];
 }
 
-RCT_EXPORT_METHOD(login:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(login:(NSDictionary *)style callback: (RCTResponseSenderBlock)callback)
 {
     __weak typeof(self) weakself = self;
 
-    CLUIConfigure * baseUIConfigure = [self configureStyle:[CLUIConfigure new]];
+    CLUIConfigure * baseUIConfigure = [self configureStyle:[CLUIConfigure new] style:style];
 
     //闪验一键登录接口（将拉起授权页）
     [CLShanYanSDKManager quickAuthLoginWithConfigure:baseUIConfigure openLoginAuthListener:^(CLCompleteResult * _Nonnull completeResult) {
@@ -59,9 +62,7 @@ RCT_EXPORT_METHOD(login:(RCTResponseSenderBlock)callback)
 
             //提示：错误无需提示给用户，可以在用户无感知的状态下直接切换登录方式
             if (completeResult.code == 1011){
-                //用户取消登录（点返回）
-                //处理建议：如无特殊需求可不做处理，仅作为交互状态回调，此时已经回到当前用户自己的页面
-                //点击sdk自带的返回，无论是否设置手动销毁，授权页面都会强制关闭
+                callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.error.userInfo]);
             }  else{
                 //处理建议：其他错误代码表示闪验通道无法继续，可以统一走开发者自己的其他登录方式，也可以对不同的错误单独处理
                 //1003    一键登录获取token失败
@@ -87,7 +88,40 @@ RCT_EXPORT_METHOD(login:(RCTResponseSenderBlock)callback)
     }];
 }
 
-- (CLUIConfigure *)configureStyle:(CLUIConfigure *)inputConfigure{
+#pragma mark - CLShanYanSDKManagerDelegate
+- (void)clShanYanSDKManagerAuthPageAfterViewDidLoad:(UIView *)authPageView currentTelecom:(NSString *)telecom{
+    
+    //给当前页面显示弹窗背景蒙版view（如果需要蒙版，自行添加）
+//    [self showShanYanAuthPageMaskViewWhenUseWindow];
+}
+
+- (void)clShanYanSDKManagerAuthPageDeallocCurrentTelecom:(NSString *)telecom{
+    //授权页销毁可再调一次隐藏蒙版
+//    [self hideShanYanAuthPageMaskViewWhenUseWindow];
+}
+
+//给当前页面显示弹窗背景蒙版view
+-(void)showShanYanAuthPageMaskViewWhenUseWindow{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        UIView * masker = [window.rootViewController.view viewWithTag:72305723971];
+        if (masker == nil) {
+            masker = [[UIView alloc]initWithFrame:window.bounds];
+            masker.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+            masker.tag = 72305723971;
+        }
+        [window addSubview:masker];
+    });
+}
+-(void)hideShanYanAuthPageMaskViewWhenUseWindow{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        UIView * masker = [[window.rootViewController.childViewControllers lastObject].view viewWithTag:72305723971];
+        [masker removeFromSuperview];
+    });
+}
+
+- (CLUIConfigure *)configureStyle:(CLUIConfigure *)inputConfigure style:(NSDictionary *)style {
     CGFloat screenWidth_Portrait;
     CGFloat screenHeight_Portrait;
     screenWidth_Portrait = UIScreen.mainScreen.bounds.size.width;
@@ -97,14 +131,17 @@ RCT_EXPORT_METHOD(login:(RCTResponseSenderBlock)callback)
     if (screenScale > 1) {
         screenScale = 1;
     }
-
+    
     UIColor * style2Color = [UIColor colorWithRed:63/255.0 green:165/255.0 blue:240/255.0 alpha:1];;
+    
+    if(style) {
+        if(style[@"color"]) {
+            style2Color = [UIColor colorWithHexString:style[@"color"]];
+        }
+    }
 
     CLUIConfigure * baseUIConfigure = inputConfigure;
 
-    //  UIView *mask = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    //  mask.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
-    //  [app.nav.view addSubview:mask];
     baseUIConfigure.viewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
 
     //横竖屏设置
@@ -126,17 +163,12 @@ RCT_EXPORT_METHOD(login:(RCTResponseSenderBlock)callback)
     baseUIConfigure.clPhoneNumberFont = [UIFont fontWithName:@"PingFang-SC-Medium" size:18.0*screenScale];
 
     //LoginBtn
-    //    baseUIConfigure.clLoginBtnText = [NSString stringWithFormat:@"一键登录%f",CFAbsoluteTimeGetCurrent()];
     baseUIConfigure.clLoginBtnText = @"一键登录";
 
     baseUIConfigure.clLoginBtnTextFont = [UIFont systemFontOfSize:15*screenScale];
     baseUIConfigure.clLoginBtnBgColor = style2Color;
     baseUIConfigure.clLoginBtnCornerRadius = @(10*screenScale);
     baseUIConfigure.clLoginBtnTextColor = UIColor.whiteColor;
-
-    //Privacy
-    //  baseUIConfigure.clAppPrivacyFirst = @[@"测试连接A",@"https://www.baidu.com"];
-    //  baseUIConfigure.clAppPrivacySecond = @[@"18055352658",@"https://www.sina.com"];
 
     baseUIConfigure.clAppPrivacyColor = @[[UIColor lightGrayColor],style2Color];
     baseUIConfigure.clAppPrivacyTextAlignment = @(NSTextAlignmentCenter);

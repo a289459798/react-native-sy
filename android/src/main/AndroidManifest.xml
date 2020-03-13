@@ -9,29 +9,34 @@
 
     <application
         android:usesCleartextTraffic="true"
+        android:theme="@style/AppTheme"
     >
 
         <activity
             android:name="com.sdk.mobile.manager.login.cucc.OauthActivity"
             android:launchMode="singleTop"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/Theme.ActivityDialogStyle"
             android:screenOrientation="portrait"/>
         <!--  **********************移动授权页activity**************************-->
         <activity
             android:name="com.cmic.sso.sdk.activity.LoginAuthActivity"
             android:launchMode="singleTop"
+            android:theme="@style/Theme.ActivityDialogStyle"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
         <!--  **********************电信授权页activity**************************-->
         <activity
             android:name="com.chuanglan.shanyan_sdk.view.ShanYanOneKeyActivity"
             android:launchMode="singleTop"
+            android:theme="@style/Theme.ActivityDialogStyle"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
         <!--  **********************协议页activity**************************-->
         <activity
             android:name="com.chuanglan.shanyan_sdk.view.CTCCPrivacyProtocolActivity"
             android:launchMode="singleTop"
+            android:theme="@style/Theme.ActivityDialogStyle"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
     </application>

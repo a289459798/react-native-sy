@@ -31,8 +31,8 @@ class SyManage extends NativeEventEmitter {
         RNSy.preGetPhonenumber(cb);
     }
 
-    login(cb) {
-        RNSy.login(cb);
+    login(cb, style) {
+        RNSy.login(style, cb);
     }
 }
 
