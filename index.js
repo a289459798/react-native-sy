@@ -1,14 +1,8 @@
 import {NativeModules, PermissionsAndroid, Platform} from 'react-native';
 
-const {RNSy, NativeEventEmitter} = NativeModules;
+const {RNSy} = NativeModules;
 
-class SyManage extends NativeEventEmitter {
-    // 构造
-    constructor(props) {
-        super(RNSy);
-        // 初始状态
-        this.state = {};
-    }
+class SyManage {
 
     init(appid, debug, cb) {
         if (Platform.OS == 'android') {
