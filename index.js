@@ -1,10 +1,17 @@
-import {NativeModules, PermissionsAndroid, Platform} from 'react-native';
+import {NativeModules, PermissionsAndroid, Platform, NativeEventEmitter} from 'react-native';
 
 const {RNSy} = NativeModules;
 
-class SyManage {
+export default new class SyManage extends NativeEventEmitter {
+    // 构造
+    constructor(props) {
+        super(RNSy);
+        // 初始状态
+        this.state = {};
+    }
 
     init(appid, debug, cb) {
+
         if (Platform.OS == 'android') {
             PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE).then((state) => {
                 if (state) {
@@ -28,7 +35,4 @@ class SyManage {
     login(cb, style) {
         RNSy.login(style, cb);
     }
-}
-
-let Sy = new SyManage();
-export default Sy;
+};
