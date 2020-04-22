@@ -15,7 +15,7 @@ RCT_EXPORT_METHOD(init:(NSString *)appId debug:(BOOL)debug callback:(RCTResponse
     [CLShanYanSDKManager printConsoleEnable:debug];
     [CLShanYanSDKManager initWithAppId:appId complete:^(CLCompleteResult * _Nonnull completeResult) {
         if(completeResult.error) {
-            callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.error.userInfo]);
+            callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.message]);
         } else {
             callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], @[]]);
         }
@@ -28,7 +28,7 @@ RCT_EXPORT_METHOD(preGetPhonenumber:(RCTResponseSenderBlock)callback)
 {
     [CLShanYanSDKManager preGetPhonenumber:^(CLCompleteResult * _Nonnull completeResult) {
         if(completeResult.error) {
-            callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.error.userInfo]);
+            callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.message]);
         } else {
             callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.data]);
         }
@@ -48,7 +48,7 @@ RCT_EXPORT_METHOD(login:(NSDictionary *)style callback: (RCTResponseSenderBlock)
         if (completeResult.error) {
             //拉起授权页失败
             NSLog(@"openLoginAuthListener:%@",completeResult.error.userInfo);
-            callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.error.userInfo]);
+            callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.message]);
         }else{
             //拉起授权页成功
             NSLog(@"openLoginAuthListener:%@",completeResult.data);
@@ -62,7 +62,7 @@ RCT_EXPORT_METHOD(login:(NSDictionary *)style callback: (RCTResponseSenderBlock)
 
             //提示：错误无需提示给用户，可以在用户无感知的状态下直接切换登录方式
             if (completeResult.code == 1011){
-                callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.error.userInfo]);
+                callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.message]);
             }  else{
                 //处理建议：其他错误代码表示闪验通道无法继续，可以统一走开发者自己的其他登录方式，也可以对不同的错误单独处理
                 //1003    一键登录获取token失败
@@ -72,7 +72,7 @@ RCT_EXPORT_METHOD(login:(NSDictionary *)style callback: (RCTResponseSenderBlock)
 
                 //关闭授权页，如果授权页还未拉起，此调用不会关闭当前用户vc，即不执行任何代码
                 [CLShanYanSDKManager finishAuthControllerCompletion:nil];
-                callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.error.userInfo]);
+                callback(@[[NSString stringWithFormat:@"%ld", (long)completeResult.code], completeResult.message]);
             }
         }else{
             //一键登录获取Token成功
@@ -164,6 +164,7 @@ RCT_EXPORT_METHOD(login:(NSDictionary *)style callback: (RCTResponseSenderBlock)
 
     //LoginBtn
     baseUIConfigure.clLoginBtnText = @"一键登录";
+    baseUIConfigure.clShanYanSloganHidden = @(YES);
 
     baseUIConfigure.clLoginBtnTextFont = [UIFont systemFontOfSize:15*screenScale];
     baseUIConfigure.clLoginBtnBgColor = style2Color;

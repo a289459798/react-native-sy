@@ -181,8 +181,10 @@ public class RNSyModule extends ReactContextBaseJavaModule {
             System.out.println("bundle:" + bundle.get("telecom"));
             WritableMap m = Arguments.fromBundle(bundle);
             map.put("data", m);
+        } else if (code == 1022) {
+            map.put("data", res);
         } else {
-            String error = "";
+            String error = res;
             switch (code) {
                 case 1001:
                     error = "运营商通道关闭";
