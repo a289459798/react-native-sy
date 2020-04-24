@@ -44,4 +44,3 @@ dependencies {
     implementation 'com.facebook.react:react-native:+'
     implementation 'com.google.code.gson:gson:2.8.6'
 }
-  
