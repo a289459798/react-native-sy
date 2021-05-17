@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 
 
   s.dependency "React"
-  s.dependency "CL_ShanYanSDK"
+  s.dependency "CL_ShanYanSDK", "2.3.4.3"
 
 end
 
