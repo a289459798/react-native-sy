@@ -12,9 +12,6 @@
   ],
   "author": "zhangzy",
   "license": "ISC",
-  "peerDependencies": {
-    "react-native": "^0.41.2"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/a289459798/react-native-sy.git"
