@@ -103,12 +103,12 @@ public class RNSyModule extends ReactContextBaseJavaModule {
         int id = reactContext.getResources().getIdentifier("ic_launcher", "mipmap", reactContext.getPackageName());
 
         Drawable authNavHidden = reactContext.getResources().getDrawable(R.drawable.sysdk_login_bg);
-        Drawable navReturnImgPath = reactContext.getResources().getDrawable(R.drawable.sy_sdk_left);
+        Drawable navReturnImgPath = reactContext.getResources().getDrawable(com.chuanglan.shanyan_sdk.R.drawable.sy_sdk_left);
         Drawable logoImgPath = reactContext.getResources().getDrawable(id);
 
         Drawable logBtnImgPath = reactContext.getResources().getDrawable(R.drawable.login_btn_bg);
-        Drawable uncheckedImgPath = reactContext.getResources().getDrawable(R.drawable.umcsdk_uncheck_image);
-        Drawable checkedImgPath = reactContext.getResources().getDrawable(R.drawable.umcsdk_check_image);
+        Drawable uncheckedImgPath = reactContext.getResources().getDrawable(com.chuanglan.shanyan_sdk.R.drawable.umcsdk_uncheck_image);
+        Drawable checkedImgPath = reactContext.getResources().getDrawable(com.chuanglan.shanyan_sdk.R.drawable.umcsdk_check_image);
 
         ShanYanUIConfig uiConfig = new ShanYanUIConfig.Builder()
             .setDialogTheme(true, AbScreenUtils.getScreenWidth(reactContext, true) - 66, 400, 0, 0, false)
